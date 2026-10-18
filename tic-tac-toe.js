@@ -47,6 +47,11 @@ document.addEventListener("DOMContentLoaded", function () {
     squares[i].classList.add("square");
 
     squares[i].addEventListener("click", function () {
+      // Ignore clicks on squares that are already taken
+      if (gameState[i] !== "") {
+        return;
+      }
+
       // Show the mark and style it
       squares[i].textContent = currentPlayer;
       squares[i].classList.add(currentPlayer);
