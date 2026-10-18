@@ -1,10 +1,31 @@
 document.addEventListener("DOMContentLoaded", function () {
   const board = document.getElementById("board");
   const squares = board.children;
+  const status = document.getElementById("status");
 
   // Tracks the game: each entry is "", "X", or "O"
   const gameState = ["", "", "", "", "", "", "", "", ""];
   let currentPlayer = "X";
+
+  // Every possible winning line (indexes into gameState)
+  const winningLines = [
+    [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
+    [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
+    [0, 4, 8], [2, 4, 6]             // diagonals
+  ];
+
+  // Returns "X" or "O" if someone has won, otherwise null
+  function checkWinner() {
+    for (let i = 0; i < winningLines.length; i++) {
+      const [a, b, c] = winningLines[i];
+      if (gameState[a] !== "" &&
+          gameState[a] === gameState[b] &&
+          gameState[a] === gameState[c]) {
+        return gameState[a];
+      }
+    }
+    return null;
+  }
 
   for (let i = 0; i < squares.length; i++) {
     squares[i].classList.add("square");
@@ -16,6 +37,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Record it in the state array
       gameState[i] = currentPlayer;
+
+      // Check for a winner
+      const winner = checkWinner();
+      if (winner) {
+        status.textContent = "Congratulations! " + winner + " is the Winner!";
+        status.classList.add("you-won");
+      }
 
       // Switch turns
       currentPlayer = currentPlayer === "X" ? "O" : "X";
