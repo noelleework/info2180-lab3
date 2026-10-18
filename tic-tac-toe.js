@@ -2,6 +2,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const board = document.getElementById("board");
   const squares = board.children;
   const status = document.getElementById("status");
+  const newGameButton = document.querySelector(".btn");
+
+  // Save the original message so we can restore it on reset
+  const originalMessage = status.textContent;
 
   // Tracks the game: each entry is "", "X", or "O"
   const gameState = ["", "", "", "", "", "", "", "", ""];
@@ -25,6 +29,18 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
     return null;
+  }
+
+  // Puts everything back to the starting state
+  function resetGame() {
+    for (let i = 0; i < squares.length; i++) {
+      squares[i].textContent = "";
+      squares[i].classList.remove("X", "O");
+      gameState[i] = "";
+    }
+    status.textContent = originalMessage;
+    status.classList.remove("you-won");
+    currentPlayer = "X";
   }
 
   for (let i = 0; i < squares.length; i++) {
@@ -59,4 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
       squares[i].classList.remove("hover");
     });
   }
+
+  // New Game button
+  newGameButton.addEventListener("click", resetGame);
 });
