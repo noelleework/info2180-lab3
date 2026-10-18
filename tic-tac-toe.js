@@ -20,5 +20,15 @@ document.addEventListener("DOMContentLoaded", function () {
       // Switch turns
       currentPlayer = currentPlayer === "X" ? "O" : "X";
     });
+
+    // Highlight when the mouse enters
+    squares[i].addEventListener("mouseover", function () {
+      squares[i].classList.add("hover");
+    });
+
+    // Remove the highlight when the mouse leaves
+    squares[i].addEventListener("mouseout", function () {
+      squares[i].classList.remove("hover");
+    });
   }
 });
